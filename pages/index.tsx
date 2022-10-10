@@ -1,20 +1,38 @@
 import type { NextPage } from 'next';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Stats } from '@react-three/drei';
-import TexturedSphere from '../components/TexturedSphere';
+import { OrbitControls, Stats, useTexture } from '@react-three/drei';
+import Lights from '../components/Lights';
+import Ground from '../components/ground';
+
+const TempSphere = () => {
+  
+  const map = useTexture("./textures/metal_plate_diff_1k.png");
+  const normalMap = useTexture("./textures/metal_plate_nor_gl_1k.png");
+  const roughnessMap = useTexture("./textures/metal_plate_rough_1k.png");
+
+  return (
+    <>
+        <mesh scale={[0.5, 0.5, 0.5]} position={[0,1,0]} castShadow>
+          <sphereGeometry />
+          <meshStandardMaterial map={map} normalMap={normalMap} roughnessMap={roughnessMap} />
+        </mesh>
+
+    </>
+  );
+}
 
 const Home: NextPage = () => {
   const testing = true;
   return (
     <div className='container'>
-      <Canvas>
+      <Canvas shadows>
         {testing ? <Stats /> : null}
         {testing ? <axesHelper args={[2]} /> : null}
         {testing ? <gridHelper args={[10, 10]} /> : null}
         <OrbitControls />
-        <ambientLight intensity={0.1} />
-        <directionalLight position={[0, 5, 5]} />
-        <TexturedSphere />
+        <TempSphere />
+        <Lights />
+        <Ground />
       </Canvas>
     </div>
   );
