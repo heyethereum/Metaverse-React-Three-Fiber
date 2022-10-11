@@ -1,8 +1,16 @@
 import type { NextPage } from 'next';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useLoader } from '@react-three/fiber';
 import { OrbitControls, Stats, useTexture } from '@react-three/drei';
 import Lights from '../components/Lights';
-import Ground from '../components/ground';
+import Ground from '../components/Ground';
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
+
+const Tree = () => {
+  const model = useLoader(FBXLoader, "./models/sakuratree.fbx");
+  return (
+    <primitive object={model}/>
+  );
+}
 
 const TempSphere = () => {
   
@@ -31,6 +39,7 @@ const Home: NextPage = () => {
         {testing ? <gridHelper args={[10, 10]} /> : null}
         <OrbitControls />
         <TempSphere />
+        <Tree />
         <Lights />
         <Ground />
       </Canvas>
